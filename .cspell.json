@@ -21,7 +21,9 @@
     "sandboxed",
     "transpiled",
     "typedoc",
-    "untracked"
+    "untracked",
+    "functionizer",
+    "handsontable"
   ],
   "flagWords": [],
   "ignorePaths": [
