@@ -1,4 +1,4 @@
-import { OperatorFunction } from '../operator.type';
+import { JsOperatorFunction, OperatorFunction } from '../operator.type';
 
 export const power: OperatorFunction<number | null> = (
   a: number | null,
@@ -11,3 +11,5 @@ export const power: OperatorFunction<number | null> = (
   if (b === null) b = 1;
   return Math.pow(a, b);
 };
+
+export const javascriptPower: JsOperatorFunction = (a, b) => Math.pow(a, b);

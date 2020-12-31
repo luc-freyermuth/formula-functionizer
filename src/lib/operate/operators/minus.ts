@@ -1,4 +1,4 @@
-import { OperatorFunction } from '../operator.type';
+import { JsOperatorFunction, OperatorFunction } from '../operator.type';
 
 export const minus: OperatorFunction<number | null> = (
   a: number | null,
@@ -11,3 +11,5 @@ export const minus: OperatorFunction<number | null> = (
   if (b === null) b = 0;
   return a - b;
 };
+
+export const javascriptMinus: JsOperatorFunction = (a, b) => a - b;

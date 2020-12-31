@@ -1,16 +1,19 @@
-import { OperatorFunction } from './operator.type';
+import { JsOperatorFunction, OperatorFunction } from './operator.type';
 import { concatenate } from './operators/concatenate';
-import { dividedBy } from './operators/divided-by';
+import { dividedBy, javascriptDividedBy } from './operators/divided-by';
 import { equal } from './operators/equal';
-import { greaterThan } from './operators/greater-than';
-import { greaterThanOrEqual } from './operators/greater-than-or-equal';
-import { lessThan } from './operators/less-than';
+import { greaterThan, javascriptGreaterThan } from './operators/greater-than';
+import {
+  greaterThanOrEqual,
+  javascriptGreaterThanOrEqual,
+} from './operators/greater-than-or-equal';
+import { javascriptLessThan, lessThan } from './operators/less-than';
 import { lessThanOrEqual } from './operators/less-than-or-equal';
-import { minus } from './operators/minus';
+import { javascriptMinus, minus } from './operators/minus';
 import { notEqual } from './operators/not-equal';
-import { plus } from './operators/plus';
-import { power } from './operators/power';
-import { times } from './operators/times';
+import { javascriptPlus, plus } from './operators/plus';
+import { javascriptPower, power } from './operators/power';
+import { javascriptTimes, times } from './operators/times';
 
 export enum Operator {
   PLUS = '+',
@@ -27,7 +30,7 @@ export enum Operator {
   CONCATENATE = '&',
 }
 
-const operators: Record<Operator, OperatorFunction<any>> = {
+const safeOperators: Record<Operator, OperatorFunction<any>> = {
   [Operator.PLUS]: plus,
   [Operator.MINUS]: minus,
   [Operator.TIMES]: times,
@@ -42,10 +45,33 @@ const operators: Record<Operator, OperatorFunction<any>> = {
   [Operator.CONCATENATE]: concatenate,
 };
 
-export function operate(
+const javascriptOperators: Record<Operator, JsOperatorFunction> = {
+  [Operator.PLUS]: javascriptPlus,
+  [Operator.MINUS]: javascriptMinus,
+  [Operator.TIMES]: javascriptTimes,
+  [Operator.DIVIDED_BY]: javascriptDividedBy,
+  [Operator.EQUAL]: equal,
+  [Operator.NOT_EQUAL]: notEqual,
+  [Operator.GREATER_THAN]: javascriptGreaterThan,
+  [Operator.GREATER_THAN_OR_EQUAL]: javascriptGreaterThanOrEqual,
+  [Operator.LESS_THAN]: javascriptLessThan,
+  [Operator.LESS_THAN_OR_EQUAL]: javascriptGreaterThanOrEqual,
+  [Operator.POWER]: javascriptPower,
+  [Operator.CONCATENATE]: concatenate,
+};
+
+export function operateSafely(
   operator: Operator,
   firstOperand: any,
   secondOperand: any
 ): any {
-  return operators[operator](firstOperand, secondOperand);
+  return safeOperators[operator](firstOperand, secondOperand);
+}
+
+export function operateJavascriptly(
+  operator: Operator,
+  firstOperand: any,
+  secondOperand: any
+): any {
+  return javascriptOperators[operator](firstOperand, secondOperand);
 }

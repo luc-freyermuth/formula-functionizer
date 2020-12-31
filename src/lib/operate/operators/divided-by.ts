@@ -1,4 +1,4 @@
-import { OperatorFunction } from '../operator.type';
+import { JsOperatorFunction, OperatorFunction } from '../operator.type';
 
 export const dividedBy: OperatorFunction<number | null> = (
   a: number | null,
@@ -7,7 +7,9 @@ export const dividedBy: OperatorFunction<number | null> = (
   if (a === null && b === null) {
     return null;
   }
-  if (a === null) a = 1;
-  if (b === null) b = 1;
+  if (a === null) a = 0;
+  if (b === null) b = 0;
   return a / b;
 };
+
+export const javascriptDividedBy: JsOperatorFunction = (a, b) => a / b;

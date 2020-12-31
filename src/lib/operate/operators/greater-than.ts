@@ -1,4 +1,4 @@
-import { OperatorFunction } from '../operator.type';
+import { JsOperatorFunction, OperatorFunction } from '../operator.type';
 
 export const greaterThan: OperatorFunction<number | null> = (
   a: number | null,
@@ -12,3 +12,5 @@ export const greaterThan: OperatorFunction<number | null> = (
   }
   return a > b;
 };
+
+export const javascriptGreaterThan: JsOperatorFunction = (a, b) => a > b;
