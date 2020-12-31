@@ -65,6 +65,7 @@ export function operateSafely(
   firstOperand: any,
   secondOperand: any
 ): any {
+  // TODO update operators to match excel operators behavior
   return safeOperators[operator](firstOperand, secondOperand);
 }
 
