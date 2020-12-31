@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "generate-parser": "cd src/lib/grammar-parser && jison-es grammar-parser.jison && replace-in-file \"export {parser, Parser};\" \"export {Parser};\" ./grammar-parser.js",
-    "build": "run-p build:*",
+    "build": "run-p generate-parser; run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",

@@ -59,7 +59,7 @@
 
 expressions
   : expression EOF {
-      return $1;
+      return (d = {}) => $1(d);
     }
 ;
 
@@ -68,7 +68,7 @@ expression
       $$ = d => d[$1[0]];
     }
   | number {
-      $$ = d => yy.toNumber($1);
+      $$ = d => Number($1);
     }
   | STRING {
       $$ = d => yy.trimEdges($1);
