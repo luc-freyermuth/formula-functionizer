@@ -1,5 +1,5 @@
 import { Parser as GrammarParser } from './grammar-parser/grammar-parser';
-import { trimEdges } from './utils.functions';
+import { oppositeNumber, trimEdges } from './utils.functions';
 
 export type ParsedFunction = (variables: { [variable: string]: any }) => any;
 
@@ -9,6 +9,7 @@ export class Parser {
   constructor() {
     this.grammarParser = new GrammarParser();
     this.grammarParser.yy = {
+      oppositeNumber,
       trimEdges,
     };
   }
