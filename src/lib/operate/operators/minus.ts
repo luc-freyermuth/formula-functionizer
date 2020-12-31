@@ -1,9 +1,12 @@
 import { OperatorFunction } from '../operator.type';
 
-export const minus: OperatorFunction = (
+export const minus: OperatorFunction<number | null> = (
   a: number | null,
   b: number | null
-): number => {
+): number | null => {
+  if (a === null && b === null) {
+    return null;
+  }
   if (a === null) a = 0;
   if (b === null) b = 0;
   return a - b;

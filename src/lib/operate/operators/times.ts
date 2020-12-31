@@ -1,13 +1,13 @@
 import { OperatorFunction } from '../operator.type';
 
-export const plus: OperatorFunction<number | null> = (
+export const times: OperatorFunction<number | null> = (
   a: number | null,
   b: number | null
 ): number | null => {
   if (a === null && b === null) {
     return null;
   }
-  if (a === null) a = 0;
-  if (b === null) b = 0;
-  return a + b;
+  if (a === null) a = 1;
+  if (b === null) b = 1;
+  return a * b;
 };

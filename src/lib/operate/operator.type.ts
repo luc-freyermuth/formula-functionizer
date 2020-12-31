@@ -1,1 +1,1 @@
-export type OperatorFunction = (a: any, b: any) => any;
+export type OperatorFunction<T> = (a: T, b: T) => T;
