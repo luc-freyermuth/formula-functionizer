@@ -70,46 +70,46 @@ expression
       $$ = d => yy.trimEdges($1);
     }
   | expression '&' expression {
-      $$ = d => yy.evaluateByOperator('&', [$1(d), $3(d)]);
+      $$ = d => yy.operate('&', $1(d), $3(d));
     }
   | expression '=' expression {
-      $$ = d => yy.evaluateByOperator('=', [$1(d), $3(d)]);
+      $$ = d => yy.operate('=', $1(d), $3(d));
     }
   | expression '+' expression {
-      $$ = d => yy.evaluateByOperator('+', [$1(d), $3(d)]);
+      $$ = d => yy.operate('+', $1(d), $3(d));
     }
   | '(' expression ')' {
       $$ = $2;
     }
   | expression '<' '=' expression {
-      $$ = d => yy.evaluateByOperator('<=', [$1(d), $4(d)]);
+      $$ = d => yy.operate('<=', $1(d), $4(d));
     }
   | expression '>' '=' expression {
-      $$ = d => yy.evaluateByOperator('>=', [$1(d), $4(d)]);
+      $$ = d => yy.operate('>=', $1(d), $4(d));
     }
   | expression '<' '>' expression {
-      $$ = d => yy.evaluateByOperator('<>', [$1(d), $4(d)]);
+      $$ = d => yy.operate('<>', $1(d), $4(d));
     }
   | expression NOT expression {
-      $$ = d => yy.evaluateByOperator('NOT', [$1(d), $3(d)]);
+      $$ = d => yy.operate('NOT', $1(d), $3(d));
     }
   | expression '>' expression {
-      $$ = d => yy.evaluateByOperator('>', [$1(d), $3(d)]);
+      $$ = d => yy.operate('>', $1(d), $3(d));
     }
   | expression '<' expression {
-      $$ = d => yy.evaluateByOperator('<', [$1(d), $3(d)]);
+      $$ = d => yy.operate('<', $1(d), $3(d));
     }
   | expression '-' expression {
-      $$ = d => yy.evaluateByOperator('-', [$1(d), $3(d)]);
+      $$ = d => yy.operate('-', $1(d), $3(d));
     }
   | expression '*' expression {
-      $$ = d => yy.evaluateByOperator('*', [$1(d), $3(d)]);
+      $$ = d => yy.operate('*', $1(d), $3(d));
     }
   | expression '/' expression {
-      $$ = d => yy.evaluateByOperator('/', [$1(d), $3(d)]);
+      $$ = d => yy.operate('/', $1(d), $3(d));
     }
   | expression '^' expression {
-      $$ = d => yy.evaluateByOperator('^', [$1(d), $3(d)]);
+      $$ = d => yy.operate('^', $1(d), $3(d));
     }
   | '-' expression {
       var n1 = yy.oppositeNumber($2);
