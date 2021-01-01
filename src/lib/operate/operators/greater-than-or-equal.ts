@@ -1,6 +1,6 @@
-import { JsOperatorFunction, OperatorFunction } from '../operator.type';
+import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const greaterThanOrEqual: OperatorFunction<number | null> = (
+export const greaterThanOrEqual: ExcelOperatorFunction<number | null> = (
   a: number | null,
   b: number | null
 ): boolean => {

@@ -1,4 +1,4 @@
-import { JsOperatorFunction, OperatorFunction } from './operator.type';
+import { ExcelOperatorFunction, JsOperatorFunction } from './operator.type';
 import { concatenate } from './operators/concatenate';
 import { dividedBy, javascriptDividedBy } from './operators/divided-by';
 import { equal } from './operators/equal';
@@ -30,7 +30,7 @@ export enum Operator {
   CONCATENATE = '&',
 }
 
-const safeOperators: Record<Operator, OperatorFunction<any>> = {
+const safeOperators: Record<Operator, ExcelOperatorFunction<any>> = {
   [Operator.PLUS]: plus,
   [Operator.MINUS]: minus,
   [Operator.TIMES]: times,
@@ -60,7 +60,7 @@ const javascriptOperators: Record<Operator, JsOperatorFunction> = {
   [Operator.CONCATENATE]: concatenate,
 };
 
-export function operateSafely(
+export function operateExcely(
   operator: Operator,
   firstOperand: any,
   secondOperand: any

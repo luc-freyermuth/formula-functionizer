@@ -1,5 +1,5 @@
 import { Parser as GrammarParser } from './grammar-parser/grammar-parser';
-import { operateJavascriptly, operateSafely } from './operate/operate';
+import { operateExcely, operateJavascriptly } from './operate/operate';
 import { defaultOptions, ParserOptions } from './options';
 import { oppositeNumber, trimEdges } from './utils.functions';
 
@@ -18,7 +18,7 @@ export class Parser {
       oppositeNumber,
       trimEdges,
       operate:
-        options.operators === 'safe' ? operateSafely : operateJavascriptly,
+        options.operators === 'excel' ? operateExcely : operateJavascriptly,
     };
   }
 

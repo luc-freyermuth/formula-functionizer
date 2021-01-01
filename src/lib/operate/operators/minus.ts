@@ -1,6 +1,6 @@
-import { JsOperatorFunction, OperatorFunction } from '../operator.type';
+import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const minus: OperatorFunction<number | null> = (
+export const minus: ExcelOperatorFunction<number | null> = (
   a: number | null,
   b: number | null
 ): number | null => {

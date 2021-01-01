@@ -1,5 +1,5 @@
-import { OperatorFunction } from '../operator.type';
+import { JsOperatorFunction } from '../operator.type';
 
-export const notEqual: OperatorFunction<any> = (a: any, b: any): boolean => {
+export const notEqual: JsOperatorFunction = (a: any, b: any): boolean => {
   return a !== b;
 };

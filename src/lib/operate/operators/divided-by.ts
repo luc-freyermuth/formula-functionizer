@@ -1,6 +1,6 @@
-import { JsOperatorFunction, OperatorFunction } from '../operator.type';
+import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const dividedBy: OperatorFunction<number | null> = (
+export const dividedBy: ExcelOperatorFunction<number | null> = (
   a: number | null,
   b: number | null
 ): number | null => {

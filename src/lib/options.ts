@@ -1,7 +1,7 @@
 export interface ParserOptions {
-  operators: 'safe' | 'javascript';
+  operators: 'excel' | 'javascript';
 }
 
 export const defaultOptions: ParserOptions = {
-  operators: 'safe',
+  operators: 'excel',
 };
