@@ -55,7 +55,13 @@
 
 expressions
   : expression EOF {
-      return (d = {}) => $1(d);
+      return (d = {}) => {
+        try {
+          return $1(d);
+        } catch (e) {
+          return e.message;
+        }
+      };
     }
 ;
 
@@ -186,7 +192,7 @@ number
 
 error
   : ERROR {
-      $$ = yy.throwError($1);
+      $$ = yy.throwFormulaError($1);
     }
 ;
 

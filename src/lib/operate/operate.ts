@@ -11,7 +11,7 @@ import { javascriptLessThan, lessThan } from './operators/less-than';
 import { lessThanOrEqual } from './operators/less-than-or-equal';
 import { javascriptMinus, minus } from './operators/minus';
 import { notEqual } from './operators/not-equal';
-import { javascriptPlus, plus } from './operators/plus';
+import { excelPlus, javascriptPlus } from './operators/plus';
 import { javascriptPower, power } from './operators/power';
 import { javascriptTimes, times } from './operators/times';
 
@@ -31,7 +31,7 @@ export enum Operator {
 }
 
 const safeOperators: Record<Operator, ExcelOperatorFunction<any>> = {
-  [Operator.PLUS]: plus,
+  [Operator.PLUS]: excelPlus,
   [Operator.MINUS]: minus,
   [Operator.TIMES]: times,
   [Operator.DIVIDED_BY]: dividedBy,
