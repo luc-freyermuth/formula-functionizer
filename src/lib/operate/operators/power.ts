@@ -1,15 +1,20 @@
+import { FormulaError } from '../../errors.enum';
+import { throwFormulaError } from '../../utils.functions';
 import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const power: ExcelOperatorFunction<number | null> = (
-  a: number | null,
-  b: number | null
-): number | null => {
-  if (a === null && b === null) {
-    return null;
+export const excelPower: ExcelOperatorFunction<number | string> = (
+  a: number | string,
+  b: number | string
+): number => {
+  a = Number(a);
+  b = Number(b);
+
+  const result = Math.pow(a, b);
+
+  if (isNaN(result)) {
+    throwFormulaError(FormulaError.VALUE);
   }
-  if (a === null) a = 0;
-  if (b === null) b = 1;
-  return Math.pow(a, b);
+  return result;
 };
 
 export const javascriptPower: JsOperatorFunction = (a, b) => Math.pow(a, b);

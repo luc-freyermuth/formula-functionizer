@@ -1,6 +1,6 @@
 import { ExcelOperatorFunction, JsOperatorFunction } from './operator.type';
 import { concatenate } from './operators/concatenate';
-import { dividedBy, javascriptDividedBy } from './operators/divided-by';
+import { excelDividedBy, javascriptDividedBy } from './operators/divided-by';
 import { equal } from './operators/equal';
 import { greaterThan, javascriptGreaterThan } from './operators/greater-than';
 import {
@@ -9,11 +9,11 @@ import {
 } from './operators/greater-than-or-equal';
 import { javascriptLessThan, lessThan } from './operators/less-than';
 import { lessThanOrEqual } from './operators/less-than-or-equal';
-import { javascriptMinus, minus } from './operators/minus';
+import { excelMinus, javascriptMinus } from './operators/minus';
 import { notEqual } from './operators/not-equal';
 import { excelPlus, javascriptPlus } from './operators/plus';
-import { javascriptPower, power } from './operators/power';
-import { javascriptTimes, times } from './operators/times';
+import { excelPower, javascriptPower } from './operators/power';
+import { excelTimes, javascriptTimes } from './operators/times';
 
 export enum Operator {
   PLUS = '+',
@@ -32,16 +32,16 @@ export enum Operator {
 
 const safeOperators: Record<Operator, ExcelOperatorFunction<any>> = {
   [Operator.PLUS]: excelPlus,
-  [Operator.MINUS]: minus,
-  [Operator.TIMES]: times,
-  [Operator.DIVIDED_BY]: dividedBy,
+  [Operator.MINUS]: excelMinus,
+  [Operator.TIMES]: excelTimes,
+  [Operator.DIVIDED_BY]: excelDividedBy,
   [Operator.EQUAL]: equal,
   [Operator.NOT_EQUAL]: notEqual,
   [Operator.GREATER_THAN]: greaterThan,
   [Operator.GREATER_THAN_OR_EQUAL]: greaterThanOrEqual,
   [Operator.LESS_THAN]: lessThan,
   [Operator.LESS_THAN_OR_EQUAL]: lessThanOrEqual,
-  [Operator.POWER]: power,
+  [Operator.POWER]: excelPower,
   [Operator.CONCATENATE]: concatenate,
 };
 

@@ -1,14 +1,17 @@
+import { FormulaError } from '../../errors.enum';
+import { throwFormulaError } from '../../utils.functions';
 import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const times: ExcelOperatorFunction<number | null> = (
-  a: number | null,
-  b: number | null
-): number | null => {
-  if (a === null && b === null) {
-    return null;
+export const excelTimes: ExcelOperatorFunction<number | string> = (
+  a: number | string,
+  b: number | string
+): number => {
+  a = Number(a);
+  b = Number(b);
+
+  if (isNaN(a) || isNaN(b)) {
+    throwFormulaError(FormulaError.VALUE);
   }
-  if (a === null) a = 0;
-  if (b === null) b = 0;
   return a * b;
 };
 

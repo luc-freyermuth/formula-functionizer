@@ -2,9 +2,9 @@ import { FormulaError } from '../../errors.enum';
 import { throwFormulaError } from '../../utils.functions';
 import { ExcelOperatorFunction, JsOperatorFunction } from '../operator.type';
 
-export const excelPlus: ExcelOperatorFunction<number> = (
-  a: number,
-  b: number
+export const excelPlus: ExcelOperatorFunction<number | string> = (
+  a: number | string,
+  b: number | string
 ): number => {
   a = Number(a);
   b = Number(b);
