@@ -2,13 +2,16 @@ import { ExcelOperatorFunction, JsOperatorFunction } from './operator.type';
 import { concatenate } from './operators/concatenate';
 import { excelDividedBy, javascriptDividedBy } from './operators/divided-by';
 import { equal } from './operators/equal';
-import { greaterThan, javascriptGreaterThan } from './operators/greater-than';
 import {
-  greaterThanOrEqual,
+  excelGreaterThan,
+  javascriptGreaterThan,
+} from './operators/greater-than';
+import {
+  excelGreaterThanOrEqual,
   javascriptGreaterThanOrEqual,
 } from './operators/greater-than-or-equal';
-import { javascriptLessThan, lessThan } from './operators/less-than';
-import { lessThanOrEqual } from './operators/less-than-or-equal';
+import { excelLessThan, javascriptLessThan } from './operators/less-than';
+import { excelLessThanOrEqual } from './operators/less-than-or-equal';
 import { excelMinus, javascriptMinus } from './operators/minus';
 import { notEqual } from './operators/not-equal';
 import { excelPlus, javascriptPlus } from './operators/plus';
@@ -37,10 +40,10 @@ const safeOperators: Record<Operator, ExcelOperatorFunction<any>> = {
   [Operator.DIVIDED_BY]: excelDividedBy,
   [Operator.EQUAL]: equal,
   [Operator.NOT_EQUAL]: notEqual,
-  [Operator.GREATER_THAN]: greaterThan,
-  [Operator.GREATER_THAN_OR_EQUAL]: greaterThanOrEqual,
-  [Operator.LESS_THAN]: lessThan,
-  [Operator.LESS_THAN_OR_EQUAL]: lessThanOrEqual,
+  [Operator.GREATER_THAN]: excelGreaterThan,
+  [Operator.GREATER_THAN_OR_EQUAL]: excelGreaterThanOrEqual,
+  [Operator.LESS_THAN]: excelLessThan,
+  [Operator.LESS_THAN_OR_EQUAL]: excelLessThanOrEqual,
   [Operator.POWER]: excelPower,
   [Operator.CONCATENATE]: concatenate,
 };
@@ -65,7 +68,6 @@ export function operateExcely(
   firstOperand: any,
   secondOperand: any
 ): any {
-  // TODO update operators to match excel operators behavior
   return safeOperators[operator](firstOperand, secondOperand);
 }
 
