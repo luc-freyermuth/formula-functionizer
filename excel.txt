@@ -1,6 +1,0 @@
-Excel behavior
-
-+,-,x,/,pow : Si parsable: ok, sinon #!VALUE
-=, <> : comparaison stricte (===)
-<, <=, >, >= : comparaison par type puis ordre défini par type (unicode lowercase)
-& : Cast en string puis concat

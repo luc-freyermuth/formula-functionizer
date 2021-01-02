@@ -9,7 +9,11 @@ export function oppositeNumber(value: number): number {
 }
 
 export function throwFormulaError(type: FormulaError) {
-  throw new Error(type);
+  if (Object.values(FormulaError).includes(type)) {
+    throw new Error(type);
+  } else {
+    throw new Error(FormulaError.ERROR);
+  }
 }
 
 export type PrimitiveOrNoValue = string | number | boolean | null | undefined;

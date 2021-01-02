@@ -1,3 +1,4 @@
+import { FormulaError } from './errors.enum';
 import { Parser as GrammarParser } from './grammar-parser/grammar-parser';
 import { operateExcely, operateJavascriptly } from './operate/operate';
 import { defaultOptions, ParserOptions } from './options';
@@ -31,7 +32,11 @@ export class Parser {
     try {
       return this.grammarParser.parse(formula);
     } catch (e) {
-      return () => e.message;
+      if (Object.values(FormulaError).includes(e.message)) {
+        return () => e.message;
+      } else {
+        return () => FormulaError.ERROR;
+      }
     }
   }
 }
