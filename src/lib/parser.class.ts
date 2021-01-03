@@ -4,6 +4,7 @@ import { operateExcely, operateJavascriptly } from './operate/operate';
 import { defaultOptions, ParserOptions } from './options';
 import {
   callFunction,
+  checkFunctionExistence,
   oppositeNumber,
   throwFormulaError,
   trimEdges,
@@ -28,6 +29,8 @@ export class Parser {
       throwFormulaError,
       callFunction: (functionName: string, args: any[]) =>
         callFunction(options.functions, functionName, args),
+      checkFunctionExistence: (functionName: string) =>
+        checkFunctionExistence(options.functions, functionName),
     };
   }
 

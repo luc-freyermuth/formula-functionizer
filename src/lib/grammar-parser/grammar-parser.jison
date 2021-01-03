@@ -136,9 +136,11 @@ expression
       }
     }
   | FUNCTION '(' ')' {
+      yy.checkFunctionExistence($1)
       $$ = d => yy.callFunction($1);
     }
   | FUNCTION '(' expseq ')' {
+      yy.checkFunctionExistence($1)
       $$ = d => yy.callFunction($1, $3(d));
     }
   | '[' expseq ']' {

@@ -24,6 +24,15 @@ export function callFunction(
   return functions[functionName](...args);
 }
 
+export function checkFunctionExistence(
+  functions: { [functionName: string]: (...args: any[]) => any },
+  functionName: string
+): void {
+  if (!functions[functionName]) {
+    throwFormulaError(FormulaError.NAME);
+  }
+}
+
 export type PrimitiveOrNoValue = string | number | boolean | null | undefined;
 export type PrimitiveOrNoValueTypes =
   | 'string'
