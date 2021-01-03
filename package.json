@@ -7,7 +7,7 @@
   "module": "build/module/index.js",
   "repository": "https://github.com/luc-freyermuth/formula-functionizer",
   "license": "MIT",
-  "keywords": [],
+  "keywords": ["formula", "parser", "function", "functionizer", "excel", "reusable", "fast", "variable"],
   "scripts": {
     "generate-parser": "cd src/lib/grammar-parser && jison-es grammar-parser.jison && replace-in-file \"export {parser, Parser};\" \"export {Parser};\" ./grammar-parser.js",
     "build": "run-p generate-parser; run-p build:*",

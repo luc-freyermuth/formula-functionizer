@@ -1,10 +1,10 @@
-# Formula Functionizer
+# Formula Functionizer [![formula-functionizer](https://img.shields.io/npm/v/formula-functionizer.svg)](https://www.npmjs.com/package/formula-functionizer)
 
 A library for parsing formulas and create reusable functions in javascript and typescript.
 
 Formula functionizer alows to interpret formulas (and in particular excel formulas) in a javascript way, in particular by using variables instead of cells references.
 
-In addition, it creates reusable functions. It only parses the formula once when the function is created, allowing to apply the same formula for several variables values. That can be really useful when dealing with large tables or generating function plots.
+In addition, it creates reusable functions. It only parses the formula once when the function is created, allowing to apply the same formula for several variables values. That can be really useful when dealing with large arrays or generating function plots.
 
 ## Getting started
 
