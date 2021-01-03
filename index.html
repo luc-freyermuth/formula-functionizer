@@ -64,10 +64,105 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#formula-functionizer" id="formula-functionizer" style="color: inherit; text-decoration: none;">
-					<h1>formula-functionizer</h1>
+				<a href="#formula-functionizer-" id="formula-functionizer-" style="color: inherit; text-decoration: none;">
+					<h1>Formula Functionizer <a href="https://www.npmjs.com/package/formula-functionizer"><img src="https://img.shields.io/npm/v/formula-functionizer.svg" alt="formula-functionizer"></a></h1>
 				</a>
-				<p>A tool for parsing formulas and create reusable functions. This package is heavily inspired by <a href="https://github.com/handsontable/formula-parser">handsontable/formula-parser</a></p>
+				<p>A library for parsing formulas and create reusable functions in javascript and typescript.</p>
+				<p>Formula functionizer allows to interpret formulas (and in particular excel formulas) in a javascript way, in particular by using variables instead of cells references.</p>
+				<p>In addition, it creates reusable functions. It only parses the formula once when the function is created, allowing to apply the same formula for several variables values. That can be really useful when dealing with large arrays or generating function plots.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<pre><code>npm install <span class="hljs-comment">--save formula-functionizer</span></code></pre>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Parser } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;formula-functionizer&#x27;</span>;
+
+<span class="hljs-comment">// Create a parser</span>
+<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> Parser();
+
+<span class="hljs-comment">// Parse a formula to create a function</span>
+<span class="hljs-keyword">const</span> fn = parser.parse(<span class="hljs-string">&#x27;x^2 + 10 - y&#x27;</span>);
+
+<span class="hljs-comment">// Use your function !</span>
+<span class="hljs-built_in">console</span>.log(fn({ <span class="hljs-attr">x</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">5</span> })); <span class="hljs-comment">// 21</span></code></pre>
+				<a href="#parser-features" id="parser-features" style="color: inherit; text-decoration: none;">
+					<h2>Parser features</h2>
+				</a>
+				<ul>
+					<li>Operators (can behave like js or excel operators, see below)<ul>
+							<li>Arithmetic operators <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>^</code></li>
+							<li>Comparison operators <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>=</code> and <code>&lt;&gt;</code></li>
+						</ul>
+					</li>
+					<li>Custom functions <code>MYFUNCTION(4,5)</code><ul>
+							<li>Can support all <strong>excel</strong> functions using formula.js (see below)</li>
+						</ul>
+					</li>
+					<li>Arrays <code>[1, 3, MYFUNCTION(4,5)]</code></li>
+					<li>Arbitrary variables like <code>myVariable</code>, you need to pass their value when executing the function</li>
+				</ul>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h2>Options</h2>
+				</a>
+				<p>Options can be passed when creating a parser using the <code>Parser</code> constructor.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> Parser({
+  <span class="hljs-attr">operators</span>: <span class="hljs-string">&#x27;excel&#x27;</span>,
+  <span class="hljs-attr">functions</span>: {
+    <span class="hljs-attr">DOUBLE</span>: <span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> x * <span class="hljs-number">2</span>,
+  },
+});</code></pre>
+				<p>The provided options are merged with the default options, you can specify only the options that matter to you.</p>
+				<a href="#operators-option" id="operators-option" style="color: inherit; text-decoration: none;">
+					<h3><code>operators</code> option</h3>
+				</a>
+				<ul>
+					<li>Possible values : <code>excel</code>, <code>javascript</code>.</li>
+					<li>Default value: <code>excel</code></li>
+					<li>Describes how the operators (arithmetic and comparison) should be handled.<ul>
+							<li><code>excel</code> : Operators give the same result as in excel. For example, the <code>+</code> operator tries to coerce values as numbers. <code>1 + &#39;1&#39;</code> returns <code>2</code>, <code>1 + &#39;1A&#39;</code> returns the <code>#!VALUE</code> error and <code>1/0</code> returns the <code>#!DIV0</code> error.</li>
+							<li><code>javascript</code> : Operators give the same result as when used in javascript. For example, <code>1 + &#39;1&#39;</code> returns <code>&#39;11&#39;</code>, <code>1/0</code> returns <code>Infinity</code> and <code>0^0</code> returns <code>NaN</code>.</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#functions-option" id="functions-option" style="color: inherit; text-decoration: none;">
+					<h3><code>functions</code> option</h3>
+				</a>
+				<ul>
+					<li>An object with keys as function names and functions as values.</li>
+					<li>Default value: <code>{}</code></li>
+					<li>These functions can be used in your formulas. You can use this option to define your own functions or import excel formulas from formulajs. (see below)</li>
+					<li>If you try calling a function that is not defined in your formula, the <code>#?NAME</code> will be returned.</li>
+				</ul>
+				<a href="#use-excel-formulas" id="use-excel-formulas" style="color: inherit; text-decoration: none;">
+					<h2>Use excel formulas</h2>
+				</a>
+				<p>You can use excel formulas using the formulajs library. To do this, start by installing the formulajs package.</p>
+				<p><code>npm install --save @formulajs/formulajs</code></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> formulajs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@formulajs/formulajs&#x27;</span>;
+
+<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> Parser({
+  <span class="hljs-attr">functions</span>: formulajs,
+});
+
+<span class="hljs-keyword">const</span> fn = parser.parse(<span class="hljs-string">&#x27;IF(SUM(x, y) &gt; 10, &quot;big&quot;, &quot;small&quot;)&#x27;</span>);
+
+<span class="hljs-built_in">console</span>.log(fn({ <span class="hljs-attr">x</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">5</span> })); <span class="hljs-comment">// small</span></code></pre>
+				<p>You can add your own functions to the formulajs functions this way :</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> formulajs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@formulajs/formulajs&#x27;</span>;
+
+<span class="hljs-keyword">const</span> parser = <span class="hljs-keyword">new</span> Parser({
+  <span class="hljs-attr">functions</span>: {
+    ...formulajs,
+    <span class="hljs-attr">DOUBLE</span>: <span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> x * <span class="hljs-number">2</span>,
+  },
+});
+
+<span class="hljs-keyword">const</span> fn = parser.parse(<span class="hljs-string">&#x27;DOUBLE(SUM(x, y))&#x27;</span>);
+
+<span class="hljs-built_in">console</span>.log(fn({ <span class="hljs-attr">x</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">5</span> })); <span class="hljs-comment">// 18</span></code></pre>
+				<a href="#references" id="references" style="color: inherit; text-decoration: none;">
+					<h2>References</h2>
+				</a>
+				<p>This package is heavily inspired by <a href="https://github.com/handsontable/formula-parser">handsontable/formula-parser</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -80,11 +175,224 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-function">
-						<a href="globals.html#double" class="tsd-kind-icon">double</a>
+					<li class=" tsd-kind-enum">
+						<a href="enums/formulaerror.html" class="tsd-kind-icon">Formula<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/operator.html" class="tsd-kind-icon">Operator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/parser.html" class="tsd-kind-icon">Parser</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parseroptions.html" class="tsd-kind-icon">Parser<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#exceloperatorfunction" class="tsd-kind-icon">Excel<wbr>Operator<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jsoperatorfunction" class="tsd-kind-icon">Js<wbr>Operator<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#parsedfunction" class="tsd-kind-icon">Parsed<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#primitiveornovalue" class="tsd-kind-icon">Primitive<wbr>OrNo<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#primitiveornovaluetypes" class="tsd-kind-icon">Primitive<wbr>OrNo<wbr>Value<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v0" class="tsd-kind-icon">$<wbr>V0</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v1" class="tsd-kind-icon">$<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v2" class="tsd-kind-icon">$<wbr>V2</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v3" class="tsd-kind-icon">$<wbr>V3</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v4" class="tsd-kind-icon">$<wbr>V4</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v5" class="tsd-kind-icon">$<wbr>V5</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v6" class="tsd-kind-icon">$<wbr>V6</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v7" class="tsd-kind-icon">$<wbr>V7</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v8" class="tsd-kind-icon">$<wbr>V8</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_v9" class="tsd-kind-icon">$<wbr>V9</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_va" class="tsd-kind-icon">$<wbr>Va</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vb" class="tsd-kind-icon">$<wbr>Vb</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vc" class="tsd-kind-icon">$<wbr>Vc</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vd" class="tsd-kind-icon">$<wbr>Vd</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_ve" class="tsd-kind-icon">$<wbr>Ve</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vf" class="tsd-kind-icon">$<wbr>Vf</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vg" class="tsd-kind-icon">$<wbr>Vg</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vh" class="tsd-kind-icon">$<wbr>Vh</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vi" class="tsd-kind-icon">$<wbr>Vi</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vj" class="tsd-kind-icon">$<wbr>Vj</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vk" class="tsd-kind-icon">$<wbr>Vk</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vl" class="tsd-kind-icon">$<wbr>Vl</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vm" class="tsd-kind-icon">$<wbr>Vm</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vn" class="tsd-kind-icon">$<wbr>Vn</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vo" class="tsd-kind-icon">$<wbr>Vo</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vp" class="tsd-kind-icon">$<wbr>Vp</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vq" class="tsd-kind-icon">$<wbr>Vq</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#_vr" class="tsd-kind-icon">$<wbr>Vr</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#excelgreaterthan" class="tsd-kind-icon">excel<wbr>Greater<wbr>Than</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#excelgreaterthanorequal" class="tsd-kind-icon">excel<wbr>Greater<wbr>Than<wbr>OrEqual</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#excellessthan" class="tsd-kind-icon">excel<wbr>Less<wbr>Than</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#excellessthanorequal" class="tsd-kind-icon">excel<wbr>Less<wbr>Than<wbr>OrEqual</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#lexer" class="tsd-kind-icon">lexer</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#power" class="tsd-kind-icon">power</a>
+						<a href="globals.html#callfunction" class="tsd-kind-icon">call<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#checkfunctionexistence" class="tsd-kind-icon">check<wbr>Function<wbr>Existence</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#concatenate" class="tsd-kind-icon">concatenate</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#equal" class="tsd-kind-icon">equal</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#exceldividedby" class="tsd-kind-icon">excel<wbr>Divided<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#excelminus" class="tsd-kind-icon">excel<wbr>Minus</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#excelplus" class="tsd-kind-icon">excel<wbr>Plus</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#excelpower" class="tsd-kind-icon">excel<wbr>Power</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#exceltimes" class="tsd-kind-icon">excel<wbr>Times</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#excelifycomparison" class="tsd-kind-icon">excelify<wbr>Comparison</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptdividedby" class="tsd-kind-icon">javascript<wbr>Divided<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptgreaterthan" class="tsd-kind-icon">javascript<wbr>Greater<wbr>Than</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptgreaterthanorequal" class="tsd-kind-icon">javascript<wbr>Greater<wbr>Than<wbr>OrEqual</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptlessthan" class="tsd-kind-icon">javascript<wbr>Less<wbr>Than</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptlessthanorequal" class="tsd-kind-icon">javascript<wbr>Less<wbr>Than<wbr>OrEqual</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptminus" class="tsd-kind-icon">javascript<wbr>Minus</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptplus" class="tsd-kind-icon">javascript<wbr>Plus</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascriptpower" class="tsd-kind-icon">javascript<wbr>Power</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#javascripttimes" class="tsd-kind-icon">javascript<wbr>Times</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#notequal" class="tsd-kind-icon">not<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#o" class="tsd-kind-icon">o</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#operateexcely" class="tsd-kind-icon">operate<wbr>Excely</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#operatejavascriptly" class="tsd-kind-icon">operate<wbr>Javascriptly</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#oppositenumber" class="tsd-kind-icon">opposite<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwformulaerror" class="tsd-kind-icon">throw<wbr>Formula<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#trimedges" class="tsd-kind-icon">trim<wbr>Edges</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#defaultoptions" class="tsd-kind-icon">default<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#excelcomparisontypepriority" class="tsd-kind-icon">excel<wbr>Comparison<wbr>Type<wbr>Priority</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#javascriptoperators" class="tsd-kind-icon">javascript<wbr>Operators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#parser" class="tsd-kind-icon">parser</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#safeoperators" class="tsd-kind-icon">safe<wbr>Operators</a>
 					</li>
 				</ul>
 			</nav>
@@ -95,6 +403,16 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+			</ul>
 		</div>
 	</div>
 </footer>
