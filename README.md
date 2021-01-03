@@ -40,6 +40,8 @@ console.log(fn({ x: 4, y: 5 })); // 21
 Options can be passed when creating a parser using the `Parser` constructor.
 
 ```typescript
+import { Parser } from 'formula-functionizer';
+
 const parser = new Parser({
   operators: 'excel',
   functions: {
@@ -72,6 +74,7 @@ You can use excel formulas using the formulajs library. To do this, start by ins
 `npm install --save @formulajs/formulajs`
 
 ```typescript
+import { Parser } from 'formula-functionizer';
 import * as formulajs from '@formulajs/formulajs';
 
 const parser = new Parser({
@@ -86,6 +89,7 @@ console.log(fn({ x: 4, y: 5 })); // small
 You can add your own functions to the formulajs functions this way :
 
 ```typescript
+import { Parser } from 'formula-functionizer';
 import * as formulajs from '@formulajs/formulajs';
 
 const parser = new Parser({
