@@ -16,6 +16,14 @@ export function throwFormulaError(type: FormulaError) {
   }
 }
 
+export function callFunction(
+  functions: { [functionName: string]: (...args: any[]) => any },
+  functionName: string,
+  args: any[]
+): any {
+  return functions[functionName](...args);
+}
+
 export type PrimitiveOrNoValue = string | number | boolean | null | undefined;
 export type PrimitiveOrNoValueTypes =
   | 'string'

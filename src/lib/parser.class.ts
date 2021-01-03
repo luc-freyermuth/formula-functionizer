@@ -3,6 +3,7 @@ import { Parser as GrammarParser } from './grammar-parser/grammar-parser';
 import { operateExcely, operateJavascriptly } from './operate/operate';
 import { defaultOptions, ParserOptions } from './options';
 import {
+  callFunction,
   oppositeNumber,
   throwFormulaError,
   trimEdges,
@@ -11,20 +12,22 @@ import {
 export type ParsedFunction = (variables: { [variable: string]: any }) => any;
 
 export class Parser {
-  private grammarParser: any;
+  private grammarParser: GeneratedGrammarParser;
 
-  constructor(options: Partial<ParserOptions> = {}) {
-    options = {
+  constructor(userOptions: Partial<ParserOptions> = {}) {
+    const options: ParserOptions = {
       ...defaultOptions,
-      ...options,
+      ...userOptions,
     };
-    this.grammarParser = new GrammarParser();
+    this.grammarParser = (new GrammarParser() as unknown) as GeneratedGrammarParser;
     this.grammarParser.yy = {
       oppositeNumber,
       trimEdges,
       operate:
         options.operators === 'excel' ? operateExcely : operateJavascriptly,
       throwFormulaError,
+      callFunction: (functionName: string, args: any[]) =>
+        callFunction(options.functions, functionName, args),
     };
   }
 
