@@ -23,7 +23,12 @@
     "typedoc",
     "untracked",
     "functionizer",
-    "handsontable"
+    "handsontable",
+    "MYFUNCTION",
+    "formulajs",
+    "Excely",
+    "Javascriptly",
+    "excelify"
   ],
   "flagWords": [],
   "ignorePaths": [
