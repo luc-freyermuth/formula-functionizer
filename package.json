@@ -18,7 +18,7 @@
     "variable"
   ],
   "scripts": {
-    "generate-parser": "cd src/lib/grammar-parser && jison-es grammar-parser.jison && replace-in-file \"export {parser, Parser};\" \"export {Parser};\" ./grammar-parser.js",
+    "generate-parser": "cd src/lib/grammar-parser && jison-es grammar-parser.jison && replace-in-file \"export {parser, Parser};\" \"export {Parser};\" ./grammar-parser.js --quiet && replace-in-file \"_token_stack:\" \"\" ./grammar-parser.js --quiet",
     "build": "run-p generate-parser; run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
