@@ -118,21 +118,25 @@ expression
       $$ = d => yy.operate('^', $1(d), $3(d));
     }
   | '-' expression {
-      var n1 = yy.oppositeNumber($2);
+      $$ = d => {
+        const opposite = yy.oppositeNumber($2(d));
 
-      $$ = n1;
+        if(isNaN(opposite)) {
+          return 0;
+        }
 
-      if (isNaN($$)) {
-          $$ = 0;
+        return opposite;
       }
     }
   | '+' expression {
-      var n1 = yy.toNumber($2);
+      $$ = d => {
+        const asNumber = Number($2(d));
 
-      $$ = n1;
+        if(isNaN(asNumber)) {
+          return 0;
+        }
 
-      if (isNaN($$)) {
-          $$ = 0;
+        return asNumber;
       }
     }
   | FUNCTION '(' ')' {
